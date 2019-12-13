@@ -9,6 +9,9 @@ list(REMOVE_ITEM SOURCES_TEST "../${DIR_SOURCES}/main.cpp")
 #    ../${DIR_SOURCES}/rational.cpp
 #)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 include_directories(
 	../${DIR_INCLUDES}
 	${GTEST_INCLUDE_DIRS}
@@ -16,6 +19,7 @@ include_directories(
 
 set( TEST_LIBRARIES
 	${GTEST_LIBRARIES}
+	Threads::Threads
 )
 
 if ( SOURCES_TEST )
@@ -24,7 +28,7 @@ if ( SOURCES_TEST )
 endif()
 
 # Build tests
-file(GLOB testFiles *_test.cpp *_test.c)
+file(GLOB testFiles *_test.cpp)
 foreach(testFile ${testFiles})
 	file(RELATIVE_PATH test_file ${CMAKE_CURRENT_SOURCE_DIR} ${testFile})
 	string(REGEX REPLACE "^([0-9a-zA-Z_\\-]+)_test\.c.*$" "\\1" test "${test_file}")
@@ -49,6 +53,7 @@ endforeach(testFile)
 if ( BENCH )
 set( BENCH_LIBRARIES
         #benchmark
+		Threads::Threads
 )
 
 if ( SOURCES_TEST )
@@ -56,7 +61,7 @@ if ( SOURCES_TEST )
 	list( APPEND BENCH_LIBRARIES test${PROJECT} )
 endif()
 
-file(GLOB testFiles *_bench.cpp *_bench.c)
+file(GLOB testFiles *_bench.cpp)
 foreach(testFile ${testFiles})
 	file(RELATIVE_PATH test_file ${CMAKE_CURRENT_SOURCE_DIR} ${testFile})
 	string(REGEX REPLACE "^([0-9a-zA-Z_\\-]+)_bench\.c.*$" "\\1" test "${test_file}")

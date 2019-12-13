@@ -11,7 +11,12 @@ struct _ringqueue {
 	void **data;
 };
 
-ringqueue_t ringqueue_new() { return malloc(sizeof(struct _ringqueue)); }
+ringqueue_t ringqueue_new(size_t capacity) {
+	ringqueue_t queue = malloc(sizeof(struct _ringqueue));
+	if (queue)
+		ringqueue_init(queue, capacity);
+	return queue;
+}
 
 void ringqueue_init(ringqueue_t queue, size_t capacity) {
 	queue->capacity = capacity;

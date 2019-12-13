@@ -10,7 +10,7 @@ extern "C" {
 struct _ringqueue;
 typedef struct _ringqueue *ringqueue_t;
 
-ringqueue_t ringqueue_new();
+ringqueue_t ringqueue_new(size_t capacity);
 void ringqueue_init(ringqueue_t queue, size_t capacity);
 void ringqueue_free(ringqueue_t queue);
 size_t ringqueue_size(ringqueue_t queue);
